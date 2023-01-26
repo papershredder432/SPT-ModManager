@@ -29,7 +29,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btn_sptDir = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SPTManager));
             this.tab_Mods = new System.Windows.Forms.TabControl();
             this.btn_saveMod = new System.Windows.Forms.Button();
             this.btn_loadServerMods = new System.Windows.Forms.Button();
@@ -40,17 +40,8 @@
             this.lbl_modpack = new System.Windows.Forms.Label();
             this.btn_createPack = new System.Windows.Forms.Button();
             this.btn_addConfig = new System.Windows.Forms.Button();
+            this.btn_loadPack = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // btn_sptDir
-            // 
-            this.btn_sptDir.Location = new System.Drawing.Point(670, 12);
-            this.btn_sptDir.Name = "btn_sptDir";
-            this.btn_sptDir.Size = new System.Drawing.Size(108, 37);
-            this.btn_sptDir.TabIndex = 0;
-            this.btn_sptDir.Text = "SPT Directory";
-            this.btn_sptDir.UseVisualStyleBackColor = true;
-            this.btn_sptDir.Click += new System.EventHandler(this.btn_sptDir_Click);
             // 
             // tab_Mods
             // 
@@ -73,7 +64,7 @@
             // 
             // btn_loadServerMods
             // 
-            this.btn_loadServerMods.Location = new System.Drawing.Point(12, 55);
+            this.btn_loadServerMods.Location = new System.Drawing.Point(12, 98);
             this.btn_loadServerMods.Name = "btn_loadServerMods";
             this.btn_loadServerMods.Size = new System.Drawing.Size(108, 37);
             this.btn_loadServerMods.TabIndex = 3;
@@ -145,11 +136,22 @@
             this.btn_addConfig.UseVisualStyleBackColor = true;
             this.btn_addConfig.Click += new System.EventHandler(this.btn_addConfig_Click);
             // 
+            // btn_loadPack
+            // 
+            this.btn_loadPack.Location = new System.Drawing.Point(12, 55);
+            this.btn_loadPack.Name = "btn_loadPack";
+            this.btn_loadPack.Size = new System.Drawing.Size(108, 37);
+            this.btn_loadPack.TabIndex = 11;
+            this.btn_loadPack.Text = "Load Selected Pack";
+            this.btn_loadPack.UseVisualStyleBackColor = true;
+            this.btn_loadPack.Click += new System.EventHandler(this.btn_loadPack_Click);
+            // 
             // SPTManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(790, 450);
+            this.Controls.Add(this.btn_loadPack);
             this.Controls.Add(this.btn_addConfig);
             this.Controls.Add(this.btn_createPack);
             this.Controls.Add(this.lbl_modpack);
@@ -160,11 +162,13 @@
             this.Controls.Add(this.btn_loadServerMods);
             this.Controls.Add(this.btn_saveMod);
             this.Controls.Add(this.tab_Mods);
-            this.Controls.Add(this.btn_sptDir);
+            this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
             this.Name = "SPTManager";
             this.Text = "SPT Manager";
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.Button btn_loadPack;
 
         private System.Windows.Forms.Button btn_addConfig;
 
@@ -184,8 +188,6 @@
         private System.Windows.Forms.Button btn_saveMod;
 
         private System.Windows.Forms.TabControl tab_Mods;
-
-        private System.Windows.Forms.Button btn_sptDir;
 
         #endregion
     }

@@ -44,63 +44,37 @@ namespace SPT_Manager.API
             _database.SetModpacks(modPacks);
         }
         
-        /*
         public void DisableMod(string modName)
         {
-            if (!Directory.Exists($@"{SPTManager.Instance.SptDir}\user\disabled_mods\"))
+            if (!Directory.Exists($@"{SPTManager.Instance.SptDir}user\disabled_mods\"))
             {
-                Directory.CreateDirectory($@"{SPTManager.Instance.SptDir}\user\disabled_mods\");
+                Directory.CreateDirectory($@"{SPTManager.Instance.SptDir}user\disabled_mods\");
             }
 
-            if (!Directory.Exists($@"{SPTManager.Instance.SptDir}\user\mods\{modName}"))
+            if (!Directory.Exists($@"{SPTManager.Instance.SptDir}user\mods\{modName}"))
             {
                 return;
             }
 
-            var ourMods = _database.GetModList(SPTManager.Instance.CurrentUserId);
-            var ourMod = ourMods.FirstOrDefault(x => x.Name == modName);
-            
-            _database.SetModSettings(SPTManager.Instance.CurrentUserId, ourMod);
-
-            CopyFilesRecursively($@"{SPTManager.Instance.SptDir}\user\mods\{modName}", $@"{Form1.Instance.SptDir}\user\disabled_mods\{modName}");
-            Directory.Delete($@"{SPTManager.Instance.SptDir}\user\mods\{modName}", true);
+            CopyFilesRecursively($@"{SPTManager.Instance.SptDir}user\mods\{modName}", $@"{SPTManager.Instance.SptDir}user\disabled_mods\{modName}");
+            Directory.Delete($@"{SPTManager.Instance.SptDir}user\mods\{modName}", true);
         }
         
         public void EnableMod(string modName)
         {
-            if (!Directory.Exists($@"{SPTManager.Instance.SptDir}\user\disabled_mods\{modName}"))
+            if (!Directory.Exists($@"{SPTManager.Instance.SptDir}user\disabled_mods\{modName}"))
             {
                 return;
             }
 
-            if (!Directory.Exists($@"{SPTManager.Instance.SptDir}\user\mods\{modName}"))
+            if (!Directory.Exists($@"{SPTManager.Instance.SptDir}user\mods\{modName}"))
             {
-                Directory.CreateDirectory($@"{SPTManager.Instance.SptDir}\user\mods\{modName}");
+                Directory.CreateDirectory($@"{SPTManager.Instance.SptDir}user\mods\{modName}");
             }
             
-            var ourMods = _database.GetModList(SPTManager.Instance.CurrentUserId);
-            var ourMod = ourMods.FirstOrDefault(x => x.Name == modName);
-            _database.SetModSettings(SPTManager.Instance.CurrentUserId, ourMod);
-
-            if (Directory.Exists($@"{SPTManager.Instance.SptDir}\user\mods\{modName}")) return;
-            CopyFilesRecursively($@"{SPTManager.Instance.SptDir}\user\disabled_mods\{modName}", $@"{SPTManager.Instance.SptDir}\user\mods\{modName}");
+            CopyFilesRecursively($@"{SPTManager.Instance.SptDir}user\disabled_mods\{modName}", $@"{SPTManager.Instance.SptDir}user\mods\{modName}");
         }
 
-        public void ChangeUser(string oldUser, string newUser)
-        {
-
-            foreach (var mod in oldList)
-            {
-                DisableMod(mod.Name);
-            }
-            
-            foreach (var mod in newList)
-            {
-                EnableMod(mod.Name);
-            }
-        }
-        */
-        
         private static void CopyFilesRecursively(string sourcePath, string targetPath)
         {
             //Now Create all of the directories

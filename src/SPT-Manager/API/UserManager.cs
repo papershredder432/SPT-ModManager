@@ -9,7 +9,7 @@ namespace SPT_Manager.API
     {
         public List<User> InitUsers()
         {
-            var profiles = Directory.GetFiles($@"{SPTManager.Instance.SptDir}\user\profiles");
+            var profiles = Directory.GetFiles($@"{SPTManager.Instance.SptDir}user\profiles");
 
             var users = new List<User>();
             

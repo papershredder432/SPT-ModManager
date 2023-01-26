@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SPT_Manager.API;
 using SPT_Manager.DataControl;
 using SPT_Manager.Models;
@@ -17,40 +12,34 @@ namespace SPT_Manager
     public partial class SPTManager : Form
     {
         public string SptDir;
-        public string CurrentUserId;
         public static SPTManager Instance { get; set; }
         public Database Database = new Database();
         private ModManager _modManager = new ModManager();
         private UserManager _userManager = new UserManager();
-        
         
         public SPTManager()
         {
             InitializeComponent();
             Instance = this;
             Database.Reload();
+            
+            SptDir = AppContext.BaseDirectory;
 
             btn_addMods.Enabled = false;
             btn_createPack.Enabled = false;
             btn_saveMod.Enabled = false;
             btn_loadServerMods.Enabled = false;
             btn_addConfig.Enabled = false;
+            btn_loadPack.Enabled = false;
 
             cmb_modpack.Enabled = false;
             cmb_users.Enabled = false;
+            
+            Initialize();
         }
-
-        private void btn_sptDir_Click(object sender, EventArgs e)
+        
+        private void Initialize()
         {
-            var fbd = new FolderBrowserDialog();
-            DialogResult result = fbd.ShowDialog();
-
-            if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-            {
-                SptDir = fbd.SelectedPath;
-                Database.SetSptDir(fbd.SelectedPath);
-            }
-
             var users = _userManager.InitUsers();
             foreach (var user in users)
             {
@@ -93,7 +82,9 @@ namespace SPT_Manager
 
         private void btn_loadServerMods_Click(object sender, EventArgs e)
         {
-            var folders = new DirectoryInfo($@"{SptDir}\user\mods\").GetDirectories();
+            if (Database.GetModpack("Default") != null) return;
+            
+            var folders = new DirectoryInfo($@"{SptDir}user\mods\").GetDirectories();
             var mods = folders.Select(m => new Mod { Name = m.Name, ConfigLocation = "", Enabled = true }).ToList();
 
             var modPack = new ModPack
@@ -168,6 +159,7 @@ namespace SPT_Manager
             btn_addMods.Enabled = true;
             btn_saveMod.Enabled = true;
             btn_addConfig.Enabled = true;
+            btn_loadPack.Enabled = true;
             
             RefreshTable();
         }
@@ -232,6 +224,7 @@ namespace SPT_Manager
             cmb_modpack.Items.Add(cmb_modpack.Text);
             btn_addMods.Enabled = true;
             btn_saveMod.Enabled = true;
+            btn_loadPack.Enabled = true;
             
             _modManager.CreatePack(cmb_modpack.Text);
         }
@@ -275,6 +268,39 @@ namespace SPT_Manager
                 }
                 case DialogResult.Cancel:
                     return;
+            }
+        }
+
+        private void btn_loadPack_Click(object sender, EventArgs e)
+        {
+            if (tab_Mods.TabPages.Count == 0) return;
+            
+            var mods = new DirectoryInfo($@"{SptDir}user\mods\").GetDirectories();
+            if (mods.Length > 1)
+            {
+                foreach (var m in mods)
+                {
+                    _modManager.DisableMod(m.Name);
+                }
+            }
+            
+            var newMods = Database.GetModpack(cmb_modpack.SelectedItem.ToString()).Mods;
+            foreach (var m in newMods)
+            {
+                switch (m.Enabled)
+                {
+                    case true:
+                    {
+                        _modManager.EnableMod(m.Name);
+                        break;
+                    }
+
+                    case false:
+                    {
+                        _modManager.DisableMod(m.Name);
+                        break;
+                    }
+                }
             }
         }
     }
