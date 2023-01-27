@@ -42,6 +42,9 @@
             this.btn_addConfig = new System.Windows.Forms.Button();
             this.btn_loadPack = new System.Windows.Forms.Button();
             this.prg_loadPack = new System.Windows.Forms.ProgressBar();
+            this.lblContext = new System.Windows.Forms.Label();
+            this.lblDiscord = new System.Windows.Forms.LinkLabel();
+            this.lblGitHub = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // tab_Mods
@@ -154,11 +157,46 @@
             this.prg_loadPack.Size = new System.Drawing.Size(108, 23);
             this.prg_loadPack.TabIndex = 12;
             // 
+            // lblContext
+            // 
+            this.lblContext.Location = new System.Drawing.Point(640, 9);
+            this.lblContext.Name = "lblContext";
+            this.lblContext.Size = new System.Drawing.Size(138, 15);
+            this.lblContext.TabIndex = 14;
+            this.lblContext.Text = "Made by papershredder432";
+            this.lblContext.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lblDiscord
+            // 
+            this.lblDiscord.Location = new System.Drawing.Point(710, 24);
+            this.lblDiscord.Name = "lblDiscord";
+            this.lblDiscord.Size = new System.Drawing.Size(68, 14);
+            this.lblDiscord.TabIndex = 15;
+            this.lblDiscord.TabStop = true;
+            this.lblDiscord.Text = "Dev Discord";
+            this.lblDiscord.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lblDiscord.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblDiscord_LinkClicked);
+            // 
+            // lblGitHub
+            // 
+            this.lblGitHub.Location = new System.Drawing.Point(710, 38);
+            this.lblGitHub.Name = "lblGitHub";
+            this.lblGitHub.Size = new System.Drawing.Size(68, 15);
+            this.lblGitHub.TabIndex = 16;
+            this.lblGitHub.TabStop = true;
+            this.lblGitHub.Text = "GitHub";
+            this.lblGitHub.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lblGitHub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblGitHub_LinkClicked);
+            // 
             // SPTManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(790, 450);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(790, 455);
+            this.Controls.Add(this.lblGitHub);
+            this.Controls.Add(this.lblDiscord);
+            this.Controls.Add(this.lblContext);
             this.Controls.Add(this.prg_loadPack);
             this.Controls.Add(this.btn_loadPack);
             this.Controls.Add(this.btn_addConfig);
@@ -172,10 +210,16 @@
             this.Controls.Add(this.btn_saveMod);
             this.Controls.Add(this.tab_Mods);
             this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
+            this.Location = new System.Drawing.Point(15, 15);
             this.Name = "SPTManager";
-            this.Text = "SPT Manager";
+            this.Text = "SPT Mod Manager";
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.LinkLabel lblGitHub;
+
+        private System.Windows.Forms.Label lblContext;
+        private System.Windows.Forms.LinkLabel lblDiscord;
 
         private System.Windows.Forms.ProgressBar prg_loadPack;
 

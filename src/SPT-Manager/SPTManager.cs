@@ -81,7 +81,7 @@ namespace SPT_Manager
             btn_createPack.Enabled = true;
             btn_loadServerMods.Enabled = true;
         }
-
+        
         private void btn_loadServerMods_Click(object sender, EventArgs e)
         {
             if (Database.GetModpack("Default") != null) return;
@@ -316,6 +316,16 @@ namespace SPT_Manager
 
             prg_loadPack.Value = 0;
             prg_loadPack.Visible = false;
+        }
+
+        private void lblGitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/papershredder432");
+        }
+
+        private void lblDiscord_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://discord.gg/ydjYVJ2");
         }
     }
 }
