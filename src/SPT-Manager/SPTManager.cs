@@ -34,6 +34,8 @@ namespace SPT_Manager
 
             cmb_modpack.Enabled = false;
             cmb_users.Enabled = false;
+
+            prg_loadPack.Visible = false;
             
             Initialize();
         }
@@ -274,34 +276,46 @@ namespace SPT_Manager
         private void btn_loadPack_Click(object sender, EventArgs e)
         {
             if (tab_Mods.TabPages.Count == 0) return;
-            
+            prg_loadPack.Visible = true;
+
             var mods = new DirectoryInfo($@"{SptDir}user\mods\").GetDirectories();
+            var newMods = Database.GetModpack(cmb_modpack.SelectedItem.ToString()).Mods;
+
+            prg_loadPack.Maximum = mods.Length + newMods.Count + 1;
+            prg_loadPack.Step = 1;
+            prg_loadPack.Minimum = 1;
+            
             if (mods.Length > 1)
             {
                 foreach (var m in mods)
                 {
+                    prg_loadPack.PerformStep();
                     _modManager.DisableMod(m.Name);
                 }
             }
             
-            var newMods = Database.GetModpack(cmb_modpack.SelectedItem.ToString()).Mods;
             foreach (var m in newMods)
             {
                 switch (m.Enabled)
                 {
                     case true:
                     {
+                        prg_loadPack.PerformStep();
                         _modManager.EnableMod(m.Name);
                         break;
                     }
 
                     case false:
                     {
+                        prg_loadPack.PerformStep();
                         _modManager.DisableMod(m.Name);
                         break;
                     }
                 }
             }
+
+            prg_loadPack.Value = 0;
+            prg_loadPack.Visible = false;
         }
     }
 }

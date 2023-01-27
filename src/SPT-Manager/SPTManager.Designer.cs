@@ -41,6 +41,7 @@
             this.btn_createPack = new System.Windows.Forms.Button();
             this.btn_addConfig = new System.Windows.Forms.Button();
             this.btn_loadPack = new System.Windows.Forms.Button();
+            this.prg_loadPack = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // tab_Mods
@@ -146,11 +147,19 @@
             this.btn_loadPack.UseVisualStyleBackColor = true;
             this.btn_loadPack.Click += new System.EventHandler(this.btn_loadPack_Click);
             // 
+            // prg_loadPack
+            // 
+            this.prg_loadPack.Location = new System.Drawing.Point(12, 141);
+            this.prg_loadPack.Name = "prg_loadPack";
+            this.prg_loadPack.Size = new System.Drawing.Size(108, 23);
+            this.prg_loadPack.TabIndex = 12;
+            // 
             // SPTManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(790, 450);
+            this.Controls.Add(this.prg_loadPack);
             this.Controls.Add(this.btn_loadPack);
             this.Controls.Add(this.btn_addConfig);
             this.Controls.Add(this.btn_createPack);
@@ -167,6 +176,8 @@
             this.Text = "SPT Manager";
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.ProgressBar prg_loadPack;
 
         private System.Windows.Forms.Button btn_loadPack;
 
