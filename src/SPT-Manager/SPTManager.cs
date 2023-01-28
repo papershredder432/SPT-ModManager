@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -87,7 +88,29 @@ namespace SPT_Manager
             if (Database.GetModpack("Default") != null) return;
             
             var folders = new DirectoryInfo($@"{SptDir}user\mods\").GetDirectories();
-            var mods = folders.Select(m => new Mod { Name = m.Name, ConfigLocation = "", Enabled = true }).ToList();
+            var mods = new List<Mod>();
+
+            var configJson = "";
+            
+            foreach (var mod in folders)
+            {
+                var children = mod.GetFiles("config.json", SearchOption.AllDirectories);
+                if (children.Length != 0)
+                {
+                    var directoryInfo = children.FirstOrDefault(x => x.Name == "config.json").Directory;
+                    configJson = directoryInfo != null ? $@"{directoryInfo.FullName}\config.json" : "";
+                }
+
+                var newMod = new Mod
+                {
+                    Name = mod.Name,
+                    Enabled = true,
+                    ConfigLocation = configJson
+                };
+                mods.Add(newMod);
+
+                configJson = "";
+            }
 
             var modPack = new ModPack
             {
@@ -138,7 +161,16 @@ namespace SPT_Manager
 
             if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
             {
-                _modManager.AddMod(dirInf.Name, cmb_modpack.Text, "");
+                var configJson = "";
+                
+                var children = dirInf.GetFiles("config.json", SearchOption.AllDirectories);
+                if (children.Length == 0)
+                {
+                    var directoryInfo = children.FirstOrDefault(x => x.Name == "config.json").Directory;
+                    configJson = directoryInfo != null ? $@"{directoryInfo.FullName}\config.json" : "";
+                }
+
+                _modManager.AddMod(dirInf.Name, cmb_modpack.Text, configJson);
             }
 
             var newPage = new TabPage($"page_{dirInf.Name}");
@@ -187,21 +219,19 @@ namespace SPT_Manager
 
                 newPage.Controls.Add(chkBox);
 
-                if (!string.IsNullOrWhiteSpace(mod.ConfigLocation))
-                {
-                    var streamReader = new StreamReader(mod.ConfigLocation).ReadToEnd();
+                if (string.IsNullOrWhiteSpace(mod.ConfigLocation)) continue;
+                var streamReader = new StreamReader(mod.ConfigLocation).ReadToEnd();
 
-                    var txt = new TextBox();
-                    txt.Name = $"txt_{mod.Name}";
-                    txt.Multiline = true;
-                    txt.Location = new Point(0, txt.Location.Y + chkBox.Height);
-                    txt.Width = newPage.Width;
-                    txt.Height = newPage.Height;
-                    txt.ScrollBars = ScrollBars.Vertical;
-                    txt.Text = streamReader;
+                var txt = new TextBox();
+                txt.Name = $"txt_{mod.Name}";
+                txt.Multiline = true;
+                txt.Location = new Point(0, txt.Location.Y + chkBox.Height);
+                txt.Width = newPage.Width;
+                txt.Height = newPage.Height;
+                txt.ScrollBars = ScrollBars.Vertical;
+                txt.Text = streamReader;
                 
-                    newPage.Controls.Add(txt);
-                }
+                newPage.Controls.Add(txt);
             }
         }
 
@@ -314,7 +344,7 @@ namespace SPT_Manager
                 }
             }
 
-            prg_loadPack.Value = 0;
+            prg_loadPack.Value = 1;
             prg_loadPack.Visible = false;
         }
 
